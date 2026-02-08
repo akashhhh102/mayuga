@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ultra Pookie Valentine 💗</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:"Comic Sans MS", cursive;
+    background:linear-gradient(135deg,#ffb6c1,#ffc0cb,#ffd6e7);
+    overflow:hidden;
+}
+
+/* Floating hearts background */
+.hearts{
+    position:fixed;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+.hearts span{
+    position:absolute;
+    font-size:25px;
+    animation:float 8s linear infinite;
+    opacity:0.5;
+}
+@keyframes float{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+
+/* MAIN CARD */
+.card{
+    background:#ffe6f0;
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    text-align:center;
+    width:420px;
+    position:relative;
+}
+
+h1{
+    color:#ff3f7f;
+}
+
+/* BUTTON AREA */
+.btnBox{
+    position:relative;
+    height:140px;
+}
+
+/* BUTTON STYLE */
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:15px;
+    font-size:18px;
+    cursor:pointer;
+    margin:10px;
+    background:#fff0f6;
+    color:#ff2f75;
+    box-shadow:0 6px 10px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+#yes{
+    position:relative;
+}
+
+#no{
+    position:absolute;
+    left:240px;
+    top:40px;
+}
+
+.loveMessage{
+    font-size:26px;
+    color:#ff2f75;
+    display:none;
+    margin-top:20px;
+    animation:pop 0.8s ease;
+}
+
+@keyframes pop{
+    from{transform:scale(0.5);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating hearts container -->
+<div class="hearts" id="hearts"></div>
+
+<div class="card">
+    <h1 id="question">Will you be my Valentine? 💖</h1>
+
+    <div class="btnBox" id="box">
+        <button id="yes">Yes 💗</button>
+        <button id="no">No 🙈</button>
+    </div>
+
+    <div class="loveMessage" id="loveText">
+        I love you Mayuga 💞<br>Will you be my Valentine? 🌸
+    </div>
+</div>
+
+<!-- Add your romantic music file -->
+<audio id="music" src="romantic.mp3" loop></audio>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const box = document.getElementById("box");
+const question = document.getElementById("question");
+const heartsContainer = document.getElementById("hearts");
+
+const funnyTexts = [
+    "Why you can't love me? 😭",
+    "Please think again 🥺",
+    "I'm very cute okay? 💘",
+    "Don't break my heart 💔",
+    "Last chance pookie 😳"
+];
+
+let count = 0;
+
+/* Create floating hearts */
+for(let i=0;i<20;i++){
+    const heart=document.createElement("span");
+    heart.innerText="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(5+Math.random()*5)+"s";
+    heart.style.fontSize=(20+Math.random()*20)+"px";
+    heartsContainer.appendChild(heart);
+}
+
+/* NO button moves inside box + YES grows */
+noBtn.addEventListener("click", ()=>{
+    const boxWidth = box.clientWidth - noBtn.offsetWidth;
+    const boxHeight = box.clientHeight - noBtn.offsetHeight;
+
+    const newX = Math.random()*boxWidth;
+    const newY = Math.random()*boxHeight;
+
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
+
+    question.innerText = funnyTexts[count % funnyTexts.length];
+    count++;
+
+    /* ULTRA POOKIE EFFECT — YES grows bigger */
+    let scale = 1 + (count * 0.1);
+    yesBtn.style.transform = "scale("+scale+")";
+});
+
+/* YES button action */
+yesBtn.addEventListener("click", ()=>{
+    document.getElementById("loveText").style.display="block";
+    question.style.display="none";
+
+    /* Hide buttons */
+    noBtn.style.display="none";
+    yesBtn.style.display="none";
+
+    document.getElementById("music").play();
+});
+</script>
+
+</body>
+</html>
